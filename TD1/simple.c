@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <string.h>
 #define MESSAGE "Super\n"
 
 int dbl(int);
@@ -14,9 +15,62 @@ void q17();
 void q18();
 void q18bis();
 int palindrome(char *);
+void q20();
 int t[3];
 float f[3];
+char c[] = "requin";
 
+typedef struct Personne {
+	char *nom;
+	int age;
+	float taille;
+}PERSONNE;
+
+
+typedef struct Famille {
+	char *nom;
+	PERSONNE p;
+	PERSONNE m;
+	int nb_enfants;
+	PERSONNE enfants[];
+}FAMILLE;
+
+void initialiserPersonne(PERSONNE* p){
+	p->nom = c;
+	p->age = 50;
+	p->taille = 1.84;
+}
+
+PERSONNE creerPersonne(){
+	PERSONNE user;
+	printf("Quel est votre nom ? ");
+    scanf("%s", user.nom);
+    printf("Votre âge ? ");
+    scanf("%i", user.age);
+    printf("Votre taille ? ");
+    scanf("%f\n", user.taille);
+    return user;
+}
+
+void initialiserFamille(FAMILLE* f){
+	f->nom = c;
+	f->p = creerPersonne();
+	f->m = creerPersonne();
+	f->nb_enfants = 2;
+	for(int i = 0; i < f->nb_enfants; i++){
+		f->enfants[i] = creerPersonne();
+	}
+}
+
+int q24(FAMILLE* f){
+	int s_ages = 0;
+	s_ages += f->p.age;
+	s_ages += f->m.age;
+	for(int i = 0; i < f->nb_enfants; i++){
+		s_ages += (f->enfants[i]).age;
+	}
+	return s_ages;
+}
 
 int main() {
 	printf(MESSAGE);
@@ -32,7 +86,15 @@ int main() {
 	q1516();*/
 	q17();
 	//q18();
-	q18bis();	
+	q18bis();
+	q20();
+	printf("Requin est un palindrome : %i\n", palindrome(c));
+	printf("chaine : %li, personne : %li, personne : %li, entier : %li, tableau de personnes : %li\n", sizeof(char *),
+	 sizeof(PERSONNE), sizeof(PERSONNE), sizeof(int), sizeof(PERSONNE *));
+	/*FAMILLE f;
+	initialiserFamille(&f);
+	printf("%i\n", q24(&f));
+	creerPersonne();*/
 }
 
 int dbl(int n){
@@ -107,14 +169,48 @@ void q18(){
 	printf("Entrez une chaîne: ");
 	fgets(chaine, 80, stdin); //‘\n’ et ‘\0’ à la fin
 	fputs(chaine, stdout);
-	printf("%i \n" , strlen(chaine)); 
+	printf("%li\n" , strlen(chaine)); 
 	//Autre version avec le while(char c!='\0') et printf
 }
 
 void q18bis(){
 	t[0] = 'a';
 	t[1] = 'baz';
-	printf("%i %i\n", strlen(t), strlen(t+1));
+	printf("%li %li\n", strlen(t), strlen(t+1));
 	//Pas d'autre version avec while car tableau d'int ne finit par \0
 }
+
+int palindrome(char *s){
+	int i = 0;
+	int j, k, res;
+	while(s[i]!='\0'){
+		i++;
+	}
+	i = i - 2; //Taille de la chaine
+	k = i / 2; //Moitié de la taille
+	res = 1; //Booléen 
+	for(j = 0; j <= k && res; j++){
+		if(s[j]!=s[i-j]){ //On compare le début et la fin en se rapprochant du centre
+			res = 0;
+		}
+	}
+	return res;
+}
+
+void q20(){
+	int i;
+	FILE *f;
+	f = fopen("message.txt","r");
+	while(1) {
+		i = fgetc(f);
+		if(feof(f)) {
+			break;
+		}
+		fputc(i,stdout);
+	}
+	fclose(f);
+}
+
+
+
 
