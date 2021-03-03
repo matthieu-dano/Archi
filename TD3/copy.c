@@ -21,17 +21,15 @@ int main(){
         texte[sz] = '\0';
     }
     
-    
     close(fd);
 
-    fd = open("copy",O_WRONLY | O_CREAT, 0644);
+    fd = open("texte_copie",O_WRONLY | O_CREAT, 0644);
     if(fd < 0){
         exit(1);
     }
     sz = write(fd,texte,tailleMax);
     close(fd);
-    printf("lu: %s\n",texte);
-    free(texte);
+    printf("%s",texte);
     return 0;
 
 }

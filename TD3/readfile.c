@@ -8,18 +8,21 @@
 
 
 int main(){
-	
+
 	char *b;
-  	b = malloc(sizeof(char) * 1001);
+  	b = malloc(sizeof(char) * 11);
 	int fd, sz;
 	fd = open("message", O_RDONLY);
-	printf("%d\n", fd);
-	if (fd < 0) { 	exit(1); } 
+	//printf("%d\n", fd);
+	if (fd < 0) {
+	 	exit(1); 
+	} 
 	do {
-		sz = read(fd, b, 1000);
+		sz = read(fd, b, 10);
 		b[sz]= '\0';
-		printf("lu: %s\n", b);
-	} while (sz==1000);
+		printf("%s", b);
+	} while (sz==10);
 	close(fd);
 	return 0;
+
 }
